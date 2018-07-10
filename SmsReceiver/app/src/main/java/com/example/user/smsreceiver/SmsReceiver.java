@@ -2,6 +2,7 @@ package com.example.user.smsreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -11,22 +12,33 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        String sender=null;
-        String msg = null;
 
-        if(bundle!=null){
-            Object[] pdus = (Object[]) bundle.get("pdus");
+        if(intent.getAction().equalsIgnoreCase("android.provider.Telephony.SMS_RECEIVED")){
+            if(bundle!=null) {
+                Object[] pdu = (Object[]) bundle.get("pdus"); //protocol data unit
+                String msg = "";
+                SmsMessage smsMessage;
+                String num="";
+                String body="";
 
-            for(int i=0; i<pdus.length; i++){
-                SmsMessage sms = SmsMessage.createFromPdu((byte[]) pdus[i]);
-                sender = sms.getOriginatingAddress();
-                msg = sms.getDisplayMessageBody().toString();
+                for (int i = 0; i < pdu.length; i++) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                        String format = bundle.getString("format");
+                        smsMessage = SmsMessage.createFromPdu((byte[]) pdu[i], format);
+                    }else{
+                        smsMessage = SmsMessage.createFromPdu((byte[]) pdu[i]);
+                    }
+                    body = smsMessage.getMessageBody().toString();
+                    num = smsMessage.getOriginatingAddress().toString();
 
-                Toast.makeText(context, "From: " + sender + " Message: "+msg, Toast.LENGTH_LONG).show();
+                    msg += "Sender: " + num + " Message: " + body;
+                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                }
+
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(num, null, body, null, null);
+                Toast.makeText(context, "Message forwarded.", Toast.LENGTH_LONG).show();
             }
-
-            SmsManager smsManager =SmsManager.getDefault();
-            smsManager.sendTextMessage(sender, null, msg, null, null);
         }
     }
 }
