@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
@@ -35,9 +34,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 }
 
-                SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(num, null, body, null, null);
-                Toast.makeText(context, "Message forwarded.", Toast.LENGTH_LONG).show();
+                fetchData process=new fetchData(context, num, body);
+                process.execute();
             }
         }
     }

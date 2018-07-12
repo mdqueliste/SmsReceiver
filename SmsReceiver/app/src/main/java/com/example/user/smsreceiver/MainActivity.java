@@ -3,8 +3,8 @@ package com.example.user.smsreceiver;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allmsg);
         lv.setAdapter(arrayAdapter);
         refresh = (Button) findViewById(R.id.refresh);
-
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
