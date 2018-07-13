@@ -1,4 +1,4 @@
-package com.example.user.smsreceiver;
+package ph.edu.uplb.ics.srg.smsreceiver;
 
 import org.junit.Test;
 

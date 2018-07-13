@@ -1,44 +1,55 @@
-package com.example.user.smsreceiver;
+package ph.edu.uplb.ics.srg.smsreceiver;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
+public class InboxFragment extends Fragment {
+    private Context context;
+    private View view;
     private Button refresh;
-
     private ListView lv;
     private ArrayList<String> allmsg = new ArrayList<>();
     private ArrayAdapter arrayAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public InboxFragment(Context context){
+        this.context=context;
+    }
 
-        this.lv= findViewById(R.id.lv);
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allmsg);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view= inflater.inflate(R.layout.inbox, null);
+        this.lv= view.findViewById(R.id.lv);
+        arrayAdapter = new ArrayAdapter(this.context, android.R.layout.simple_list_item_1, allmsg);
         lv.setAdapter(arrayAdapter);
-        this.refresh = findViewById(R.id.refresh);
+        this.refresh = view.findViewById(R.id.refresh);
         this.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 refreshInbox();
             }
         });
+        return view;
     }
 
     public void refreshInbox(){
-        ContentResolver resolver = getContentResolver();
+        ContentResolver resolver = context.getContentResolver();
         Cursor cursor = resolver.query(Uri.parse("content://sms/inbox"), null, null, null, null);
 
         int indexBody = cursor.getColumnIndex("body");

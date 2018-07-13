@@ -1,4 +1,4 @@
-package com.example.user.smsreceiver;
+package ph.edu.uplb.ics.srg.smsreceiver;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.user.smsreceiver", appContext.getPackageName());
+        assertEquals("ph.edu.uplb.ics.srg.smsreceiver", appContext.getPackageName());
     }
 }

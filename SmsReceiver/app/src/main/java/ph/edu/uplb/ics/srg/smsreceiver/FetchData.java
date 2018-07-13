@@ -1,4 +1,4 @@
-package com.example.user.smsreceiver;
+package ph.edu.uplb.ics.srg.smsreceiver;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,6 +12,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +34,8 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
     private String num="";
     private static String body;
 
+    private ArrayList<String> numbers = new ArrayList<>();
+
     public FetchData(Context context, String num, String body){
         this.context=context;
         this.num=num;
@@ -29,6 +44,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+        readURL(MainActivity.endPoint);
         //==================================using save()=========================================//
         String[] data=body.split(", "); //split the message to get the point id
 
@@ -37,6 +53,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
         }else{
             body="done";
         }
+
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this.context);
         String url = "http://10.0.3.57:6200/points/"+data[0]+"/logs";
 
@@ -79,11 +96,47 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
 
     private void sendMessage(String result){
         //Sending of message
-        SmsManager smsManager = SmsManager.getDefault();
-        List<String> messages = smsManager.divideMessage(result);
-        for (String msg : messages) {
-            smsManager.sendTextMessage(this.num, null, msg, null, null);    //TODO this.num will be changed to those of the fishermen's
+        for(int i=0; i<numbers.size(); i++){
+            SmsManager smsManager = SmsManager.getDefault();
+            List<String> messages = smsManager.divideMessage(result);
+            for (String msg : messages) {
+                smsManager.sendTextMessage(numbers.get(i), null, msg, null, null);
+            }
+            Toast.makeText(context, "Message forwarded.", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(context, "Message forwarded.", Toast.LENGTH_LONG).show();
+    }
+
+    private JSONArray readURL(String link){
+        JSONArray ja=null;
+        String data="";
+        URL url;
+        HttpURLConnection httpURLConnection;
+        InputStream inputStream;
+        BufferedReader br;
+
+        try {
+            url = new URL(link); //get the JSON file from this url
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            inputStream = httpURLConnection.getInputStream();
+            br = new BufferedReader(new InputStreamReader(inputStream));
+
+            String line="";
+            while(line!=null){
+                line=br.readLine();
+                data+=line;
+            }
+            ja = new JSONArray(data);
+            if(ja!=null){
+                for(int i=0; i<ja.length(); i++){
+                    JSONObject jo = (JSONObject) ja.get(i);
+                    numbers.add((String)jo.get("number"));
+                }
+            }
+        }catch (MalformedURLException | JSONException e){
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ja;
     }
 }

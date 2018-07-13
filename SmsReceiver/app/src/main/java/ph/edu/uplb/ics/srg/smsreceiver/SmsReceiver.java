@@ -1,4 +1,4 @@
-package com.example.user.smsreceiver;
+package ph.edu.uplb.ics.srg.smsreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,14 +28,15 @@ public class SmsReceiver extends BroadcastReceiver {
                         smsMessage = SmsMessage.createFromPdu((byte[]) pdu[i]);
                     }
                     body = smsMessage.getMessageBody().toString();
-                    num = smsMessage.getOriginatingAddress().toString();
+                    num = smsMessage.getOriginatingAddress();
 
-                    msg += "Sender: " + num + " Message: " + body;
-                    Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                    //if(num==MainActivity.odetteNum){
+                        msg += "Sender: " + num + " Message: " + body;
+                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                        FetchData process = new FetchData(context, num, body);
+                        process.execute();
+                    //}
                 }
-
-                FetchData process=new FetchData(context, num, body);
-                process.execute();
             }
         }
     }
