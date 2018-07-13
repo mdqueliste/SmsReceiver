@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button refresh;
 
     private ListView lv;
-    private ArrayList<String> allmsg = new ArrayList<String>();
+    private ArrayList<String> allmsg = new ArrayList<>();
     private ArrayAdapter arrayAdapter;
 
     @Override
@@ -25,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lv= (ListView) findViewById(R.id.lv);
+        this.lv= findViewById(R.id.lv);
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allmsg);
         lv.setAdapter(arrayAdapter);
-        refresh = (Button) findViewById(R.id.refresh);
-        refresh.setOnClickListener(new View.OnClickListener() {
+        this.refresh = findViewById(R.id.refresh);
+        this.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 refreshInbox();
@@ -51,10 +51,5 @@ public class MainActivity extends AppCompatActivity {
             String str = "Sender: "+ cursor.getString(indexAddress)+"\n Message: "+  cursor.getString(indexBody);
             arrayAdapter.add(str);
         }while (cursor.moveToNext());
-    }
-
-    public void updateList(String latest){
-        arrayAdapter.insert(latest, 0);
-        arrayAdapter.notifyDataSetChanged();
     }
 }

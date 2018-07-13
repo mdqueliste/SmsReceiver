@@ -34,7 +34,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 }
 
-                fetchData process=new fetchData(context, num, body);
+                FetchData process=new FetchData(context, num, body);
                 process.execute();
             }
         }
