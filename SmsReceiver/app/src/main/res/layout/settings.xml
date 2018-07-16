@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/textView"
@@ -30,7 +30,7 @@
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Specify endpoint:"
+            android:text="Specify API endpoint:"
             android:textSize="15dp"
             android:gravity="center"/>
 
