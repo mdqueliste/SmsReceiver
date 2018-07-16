@@ -11,7 +11,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     public static String odetteNum="15555215556";
-    public static String endPoint="https://api.myjson.com/bins/9007q";
+    public static String endPoint="http://10.0.3.57:6200";
+    public static String farmerNum="https://api.myjson.com/bins/9007q";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

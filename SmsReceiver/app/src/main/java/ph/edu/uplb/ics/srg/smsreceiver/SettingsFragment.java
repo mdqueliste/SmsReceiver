@@ -27,16 +27,19 @@ public class SettingsFragment extends Fragment{
         view= inflater.inflate(R.layout.settings, null);
         final EditText odettenum = (EditText) view.findViewById(R.id.odettenum_et);
         final EditText endpoint = (EditText) view.findViewById(R.id.endpoint_et);
+        final EditText farmernum = (EditText) view.findViewById(R.id.farmernum_et);
 
         Button save = (Button) view.findViewById(R.id.saveSettings);
         odettenum.setText(MainActivity.odetteNum);
         endpoint.setText(MainActivity.endPoint);
+        farmernum.setText(MainActivity.farmerNum);
 
         save.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.odetteNum=odettenum.getText().toString();
                 MainActivity.endPoint=endpoint.getText().toString();
+                MainActivity.farmerNum=farmernum.getText().toString();
                 Toast.makeText(context, "Settings successfully saved.", Toast.LENGTH_LONG).show();
             }
         });

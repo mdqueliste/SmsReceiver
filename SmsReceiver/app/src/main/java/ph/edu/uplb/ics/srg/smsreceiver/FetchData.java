@@ -44,7 +44,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        readURL(MainActivity.endPoint);
+        readURL(MainActivity.farmerNum);
         //==================================using save()=========================================//
         String[] data=body.split(", "); //split the message to get the point id
 
@@ -55,7 +55,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
         }
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this.context);
-        String url = "http://10.0.3.57:6200/points/"+data[0]+"/logs";
+        String url = MainActivity.endPoint+"/points/"+data[0]+"/logs";
 
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
