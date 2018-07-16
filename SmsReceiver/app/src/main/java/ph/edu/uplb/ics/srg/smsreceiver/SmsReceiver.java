@@ -14,7 +14,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
         if(intent.getAction().equalsIgnoreCase("android.provider.Telephony.SMS_RECEIVED")){
             if(bundle!=null) {
-                Object[] pdu = (Object[]) bundle.get("pdus"); //protocol data unit
+                Object[] pdu = (Object[]) bundle.get("pdus"); //PDU-protocol data unit
                 String msg = "";
                 SmsMessage smsMessage;
                 String num="";
@@ -27,13 +27,13 @@ public class SmsReceiver extends BroadcastReceiver {
                     }else{
                         smsMessage = SmsMessage.createFromPdu((byte[]) pdu[i]);
                     }
-                    body = smsMessage.getMessageBody().toString();
-                    num = smsMessage.getOriginatingAddress().toString();
+                    body = smsMessage.getMessageBody().toString();  //get message body
+                    num = smsMessage.getOriginatingAddress().toString();    //get sender's number
 
                     if(num.equals(MainActivity.odetteNum)){
                         msg += "Sender: " + num + " Message: " + body;
                         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                        FetchData process = new FetchData(context, num, body);
+                        FetchData process = new FetchData(context, num, body);  //only use save() if the number is that of Project Odette's
                         process.execute();
                     }
                 }

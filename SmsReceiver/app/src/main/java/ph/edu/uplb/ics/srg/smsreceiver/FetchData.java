@@ -61,17 +61,17 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                 new Response.Listener<String>()
                 {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(String response) {   //if successfully saved to database
                         Log.d("Response", response);
                         if(body.equals("done")){
-                            sendMessage(response);
+                            sendMessage(response);  //send to fishermen if received message is 'done'
                         }
                     }
                 },
                 new Response.ErrorListener()
                 {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
+                    public void onErrorResponse(VolleyError error) {    //if error
                         Log.d("Error.Response", "Error");
                     }
                 }
@@ -80,7 +80,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
             protected Map<String, String> getParams()
             {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("message", body);
+                params.put("message", body);    //the body that will be send to save() API
                 return params;
             }
         };
@@ -93,11 +93,11 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(aVoid);
     }
 
-    private void sendMessage(String result){
+    private void sendMessage(String result){    //sending of message to fishermen
         //Sending of message
         for(int i=0; i<numbers.size(); i++){
             SmsManager smsManager = SmsManager.getDefault();
-            List<String> messages = smsManager.divideMessage(result);
+            List<String> messages = smsManager.divideMessage(result);   //dividing the message if it is too long
             for (String msg : messages) {
                 smsManager.sendTextMessage(numbers.get(i), null, msg, null, null);
             }
@@ -128,7 +128,7 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
             if(ja!=null){
                 for(int i=0; i<ja.length(); i++){
                     JSONObject jo = (JSONObject) ja.get(i);
-                    numbers.add((String)jo.get("number"));
+                    numbers.add((String)jo.get("number"));  //get the value with "number" as key
                 }
             }
         }catch (MalformedURLException | JSONException e){

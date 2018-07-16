@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Fragment fragment=null;
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()){  //switch case for which option is selected in the bottom navigation
             case R.id.navigation_inbox:
                 fragment= new InboxFragment(this);
                 break;

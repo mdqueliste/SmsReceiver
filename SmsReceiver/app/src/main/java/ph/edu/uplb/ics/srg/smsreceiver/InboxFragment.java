@@ -37,7 +37,7 @@ public class InboxFragment extends Fragment {
         view= inflater.inflate(R.layout.inbox, null);
         this.lv= view.findViewById(R.id.lv);
         arrayAdapter = new ArrayAdapter(this.context, android.R.layout.simple_list_item_1, allmsg);
-        lv.setAdapter(arrayAdapter);
+        lv.setAdapter(arrayAdapter);    //listview for the list of messages
         this.refresh = view.findViewById(R.id.refresh);
         this.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +60,7 @@ public class InboxFragment extends Fragment {
         arrayAdapter.clear();
         do{
             String num=cursor.getString(indexAddress);
-            if(num.equals(MainActivity.odetteNum)){
+            if(num.equals(MainActivity.odetteNum)){ //get the messages from phone inbox whose sender is Project Odette
                 String str = "Sender: "+ num +"\n Message: "+  cursor.getString(indexBody);
                 arrayAdapter.add(str);
             }

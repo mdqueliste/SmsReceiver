@@ -30,14 +30,14 @@ public class SettingsFragment extends Fragment{
         final EditText farmernum = (EditText) view.findViewById(R.id.farmernum_et);
 
         Button save = (Button) view.findViewById(R.id.saveSettings);
-        odettenum.setText(MainActivity.odetteNum);
+        odettenum.setText(MainActivity.odetteNum);  //setting the initial values
         endpoint.setText(MainActivity.endPoint);
         farmernum.setText(MainActivity.farmerNum);
 
         save.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.odetteNum=odettenum.getText().toString();
+                MainActivity.odetteNum=odettenum.getText().toString();  //changing the values to the EditText's values
                 MainActivity.endPoint=endpoint.getText().toString();
                 MainActivity.farmerNum=farmernum.getText().toString();
                 Toast.makeText(context, "Settings successfully saved.", Toast.LENGTH_LONG).show();
