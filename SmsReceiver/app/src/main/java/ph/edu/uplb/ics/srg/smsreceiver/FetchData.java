@@ -72,7 +72,6 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error
                         Log.d("Error.Response", "Error");
                     }
                 }

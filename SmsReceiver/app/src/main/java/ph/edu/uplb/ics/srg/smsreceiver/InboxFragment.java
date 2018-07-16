@@ -59,8 +59,11 @@ public class InboxFragment extends Fragment {
 
         arrayAdapter.clear();
         do{
-            String str = "Sender: "+ cursor.getString(indexAddress)+"\n Message: "+  cursor.getString(indexBody);
-            arrayAdapter.add(str);
+            String num=cursor.getString(indexAddress);
+            if(num.equals(MainActivity.odetteNum)){
+                String str = "Sender: "+ num +"\n Message: "+  cursor.getString(indexBody);
+                arrayAdapter.add(str);
+            }
         }while (cursor.moveToNext());
     }
 }

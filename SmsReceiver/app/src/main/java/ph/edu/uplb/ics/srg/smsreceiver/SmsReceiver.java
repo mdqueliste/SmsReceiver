@@ -28,14 +28,14 @@ public class SmsReceiver extends BroadcastReceiver {
                         smsMessage = SmsMessage.createFromPdu((byte[]) pdu[i]);
                     }
                     body = smsMessage.getMessageBody().toString();
-                    num = smsMessage.getOriginatingAddress();
+                    num = smsMessage.getOriginatingAddress().toString();
 
-                    //if(num==MainActivity.odetteNum){
+                    if(num.equals(MainActivity.odetteNum)){
                         msg += "Sender: " + num + " Message: " + body;
                         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                         FetchData process = new FetchData(context, num, body);
                         process.execute();
-                    //}
+                    }
                 }
             }
         }
