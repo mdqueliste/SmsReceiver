@@ -35,12 +35,15 @@ public class SmsReceiver extends BroadcastReceiver {
                     num = smsMessage.getOriginatingAddress().toString();    //get sender's number
 
                     if(num.equals(MainActivity.odetteNum)){
-                        msg += "Sender: " + num + " Message: " + body;
+                        msg += "Sender: " + num + "\nMessage: " + body;
                         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                         FetchData process = new FetchData(context, num, body);  //only use save() if the number is that of Project Odette's
                         process.execute();
                     }
                 }
+
+                InboxFragment instance = InboxFragment.Instance();
+                instance.updateList(msg);
             }
         }
     }

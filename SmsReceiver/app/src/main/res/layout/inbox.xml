@@ -3,15 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/refresh"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Refresh Inbox"/>
+        android:text="Messages by Project Odette:"
+        android:gravity="center"
+        android:textSize="17sp"
+        android:textColor="#000000"/>
 
     <ListView
         android:id="@+id/lv"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </ListView>
