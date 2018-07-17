@@ -2,12 +2,16 @@ package ph.edu.uplb.ics.srg.smsreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.telephony.SmsMessage;
 import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
