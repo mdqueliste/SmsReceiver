@@ -32,7 +32,7 @@ import java.util.Map;
 public class FetchData extends AsyncTask<Void, Void, Void> {
     private Context context;
     private String num="";
-    private static String body;
+    private String body;
 
     private ArrayList<String> numbers = new ArrayList<>();
 
@@ -42,50 +42,60 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
         this.body=body;
     }
 
+    private void trimSpaces(String[] data){
+        for(int i=0; i<data.length; i++){
+            data[i] = data[i].trim();
+        }
+    }
+
     @Override
     protected Void doInBackground(Void... voids) {
         readURL(MainActivity.farmerNum);
         //==================================using save()=========================================//
-        String[] data=body.split(", "); //split the message to get the point id
+        String[] data=body.split(","); //split the message to get the point id
 
-        if(data.length!=2){
-            body=data[1]+", "+data[2]+", "+data[3]+", "+data[4]+", "+data[5]+", "+data[6]+", "+data[7]+", "+data[8];
-        }else{
-            body="done";
-        }
+        trimSpaces(data);
 
-        RequestQueue MyRequestQueue = Volley.newRequestQueue(this.context);
-        String url = MainActivity.endPoint+"/points/"+data[0]+"/logs";
+        if(data.length == 2 || data.length == 7) {
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {   //if successfully saved to database
-                        Log.d("Response", response);
-                        if(body.equals("done")){
-                            sendMessage(response);  //send to fishermen if received message is 'done'
+            if (data.length != 2) {
+                body = data[1] + ", " + data[2] + ", " + data[3] + ", " + data[4] + ", " + data[5] + ", " + data[6];
+            } else {
+                body = "done";
+            }
+
+            RequestQueue MyRequestQueue = Volley.newRequestQueue(this.context);
+            String url = MainActivity.endPoint + "/waypoints/" + data[0] + "/logs";
+
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {   //if successfully saved to database
+                            Log.d("Response", response);
+                            if (body.equals("done")) {
+//                            sendMessage(response);  //send to fishermen if received message is 'done'
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {    //if error
+                            Log.d("Error.Response", "Error");
                         }
                     }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {    //if error
-                        Log.d("Error.Response", "Error");
-                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("message", body);    //the body that will be send to save() API
+                    return params;
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("message", body);    //the body that will be send to save() API
-                return params;
-            }
-        };
-        MyRequestQueue.add(postRequest);
+            };
+
+            MyRequestQueue.add(postRequest);
+        }
         return null;
+
     }
 
     @Override

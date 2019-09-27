@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver {
+
+    private static Listener mListener;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -34,6 +37,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     body = smsMessage.getMessageBody().toString();  //get message body
                     num = smsMessage.getOriginatingAddress().toString();    //get sender's number
 
+                    mListener.onTextReceived("");
                     if(num.equals(MainActivity.odetteNum)){
                         msg += "Sender: " + num + "\nMessage: " + body;
                         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
@@ -46,5 +50,12 @@ public class SmsReceiver extends BroadcastReceiver {
                 instance.updateList(msg);
             }
         }
+    }
+    public static void setListener(Listener listener) {
+        mListener = listener;
+    }
+
+    interface Listener {
+        void onTextReceived(String text);
     }
 }

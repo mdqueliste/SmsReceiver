@@ -1,8 +1,10 @@
 package ph.edu.uplb.ics.srg.smsreceiver;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -10,16 +12,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, SmsReceiver.Listener{
 
-    public static String odetteNum="15555215556";
-    public static String endPoint="http://10.0.3.57:6200";
+    public static String odetteNum="+15555215554";
+    //    public static String endPoint="http://10.0.3.57:6200";
+    public static String endPoint="http://10.0.2.2:3001";
     public static String farmerNum="https://api.myjson.com/bins/9007q";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SmsReceiver.setListener(this);
 
         if(isNetworkConnected()) {
             BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -58,5 +62,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return loadFragment(fragment);
+    }
+
+    public void onTextReceived(String text) {
+        Toast.makeText(this, "SMS received.", Toast.LENGTH_LONG).show();
     }
 }
