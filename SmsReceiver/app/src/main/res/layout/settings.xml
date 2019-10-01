@@ -45,12 +45,12 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Specify farmer database:"
-            android:textSize="15dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="Specify stakeholders database:"
+            android:textSize="15dp" />
 
         <EditText
-            android:id="@+id/farmernum_et"
+            android:id="@+id/stakeholdernum_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

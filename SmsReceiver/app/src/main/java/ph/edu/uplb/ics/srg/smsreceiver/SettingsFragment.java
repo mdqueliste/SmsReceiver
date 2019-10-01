@@ -27,19 +27,19 @@ public class SettingsFragment extends Fragment{
         view= inflater.inflate(R.layout.settings, null);
         final EditText odettenum = (EditText) view.findViewById(R.id.odettenum_et);
         final EditText endpoint = (EditText) view.findViewById(R.id.endpoint_et);
-        final EditText farmernum = (EditText) view.findViewById(R.id.farmernum_et);
+        final EditText stakeholders = (EditText) view.findViewById(R.id.stakeholdernum_et);
 
         Button save = (Button) view.findViewById(R.id.saveSettings);
-        odettenum.setText(MainActivity.odetteNum);  //setting the initial values
-        endpoint.setText(MainActivity.endPoint);
-        farmernum.setText(MainActivity.farmerNum);
+        odettenum.setText(MainActivity.getOdetteNum());  //setting the initial values
+        endpoint.setText(MainActivity.getEndPoint());
+        stakeholders.setText(MainActivity.getStakeholders());
 
         save.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.odetteNum=odettenum.getText().toString();  //changing the values to the EditText's values
-                MainActivity.endPoint=endpoint.getText().toString();
-                MainActivity.farmerNum=farmernum.getText().toString();
+                MainActivity.setOdetteNum(odettenum.getText().toString());  //changing the values to the EditText's values
+                MainActivity.setEndPoint(endpoint.getText().toString());
+                MainActivity.setStakeholders(stakeholders.getText().toString());
                 Toast.makeText(context, "Settings successfully saved.", Toast.LENGTH_LONG).show();
             }
         });

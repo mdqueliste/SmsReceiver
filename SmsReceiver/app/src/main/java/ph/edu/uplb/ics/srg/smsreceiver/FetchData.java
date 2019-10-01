@@ -31,15 +31,13 @@ import java.util.Map;
 
 public class FetchData extends AsyncTask<Void, Void, Void> {
     private Context context;
-    private String num="";
     private String body;
 
     private ArrayList<String> numbers = new ArrayList<>();
 
-    public FetchData(Context context, String num, String body){
-        this.context=context;
-        this.num=num;
-        this.body=body;
+    public FetchData(Context context, String body){
+        this.context = context;
+        this.body    = body;
     }
 
     private void trimSpaces(String[] data){
@@ -50,30 +48,31 @@ public class FetchData extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        readURL(MainActivity.farmerNum);
+        readURL(MainActivity.getStakeholders());
+
         //==================================using save()=========================================//
-        String[] data=body.split(","); //split the message to get the point id
+        String[] data = body.split(","); //split the message to get the point id
 
         trimSpaces(data);
 
         if(data.length == 2 || data.length == 7) {
 
             if (data.length != 2) {
-                body = data[1] + ", " + data[2] + ", " + data[3] + ", " + data[4] + ", " + data[5] + ", " + data[6];
+                body = data[1] + "," + data[2] + "," + data[3] + "," + data[4] + "," + data[5] + "," + data[6];     // timestamp,lat,lng,tempC,tempF,do
             } else {
                 body = "done";
             }
 
             RequestQueue MyRequestQueue = Volley.newRequestQueue(this.context);
-            String url = MainActivity.endPoint + "/waypoints/" + data[0] + "/logs";
+            String url = MainActivity.getEndPoint() + "/waypoints/" + data[0] + "/logs";
 
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
-                        public void onResponse(String response) {   //if successfully saved to database
+                        public void onResponse(String response) {   // if successfully saved to database
                             Log.d("Response", response);
                             if (body.equals("done")) {
-//                            sendMessage(response);  //send to fishermen if received message is 'done'
+                                sendMessage(response);                  // send to fishermen if received message is 'done'
                             }
                         }
                     },

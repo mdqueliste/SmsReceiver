@@ -27,14 +27,14 @@ public class InboxFragment extends Fragment {
     private Context context;
     private ArrayList<String> allmsg = new ArrayList<>();
     private ArrayAdapter arrayAdapter;
-    public static InboxFragment instance;
+    private static InboxFragment instance;
 
     public static InboxFragment Instance(){
         return instance;
     }
 
     public InboxFragment(Context context){
-        this.context=context;
+        this.context      = context;
         this.arrayAdapter = new ArrayAdapter(this.context, android.R.layout.simple_list_item_1, allmsg);
     }
 
@@ -49,8 +49,12 @@ public class InboxFragment extends Fragment {
         return view;
     }
 
-    public void updateList(final String msg){
+    void updateList(final String msg){
         arrayAdapter.insert(msg, 0);
         arrayAdapter.notifyDataSetChanged();
+    }
+
+    static InboxFragment getInstance() {
+        return instance;
     }
 }
